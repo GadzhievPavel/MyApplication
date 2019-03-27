@@ -10,11 +10,14 @@ import android.util.Log;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 
 public class ListenAndSender implements Runnable {
     Thread thread;
@@ -31,6 +34,7 @@ public class ListenAndSender implements Runnable {
         thread.start();
 
     }
+
     private Bitmap decodeStream(byte [] array){
         Bitmap bitmap=Bitmap.createBitmap(60,640,Bitmap.Config.ARGB_8888);
         int [] arrayBuf=new int[array.length];
@@ -58,25 +62,26 @@ public class ListenAndSender implements Runnable {
         try {
             InetAddress serverAddr=InetAddress.getByName(ip);
             DatagramSocket udpSocket=new DatagramSocket();
-            Log.d("Connect","OK");
             byte [] startMsg=("start").getBytes();
             DatagramPacket packet=new DatagramPacket(startMsg,startMsg.length,serverAddr,port);
             udpSocket.send(packet);
-            udpSocket.send(packet);udpSocket.send(packet);udpSocket.send(packet);
+            Log.d("Connect","OK");
             while (run)
                 try {
                     byte[] videoByte = new byte[57600];
                     DatagramPacket packetListener = new DatagramPacket(videoByte, videoByte.length);
                     udpSocket.receive(packetListener);
-                    byte[]dataBytes=packetListener.getData();
-                    int []date=new int[packetListener.getLength()];
-                    for (int i=0;i<packetListener.getLength();i++){
-                        date[i]=dataBytes[i];
+                    int [] data=new int[packetListener.getData().length];
+                    ByteBuffer buffer= ByteBuffer.wrap(packetListener.getData());
+                    for (int i=0;i<buffer.limit();i++)
+                    {
+                        data[i]=buffer.getInt(i);
                     }
-                    String text = new String(packetListener.getData(), 0, packetListener.getLength());
-                    Log.d("Video", String.valueOf((char)date[0]));
+                    Log.d("buf size", String.valueOf(data.length));
+                    String text =String.valueOf(data);
+                    Log.d("Video", String.valueOf(data));
                     Message m = handler.obtainMessage();
-                    m.obj=date;
+                    m.obj=text;
                     if(m.obj!=null)
                     {
                         handler.sendMessage(m);
@@ -92,6 +97,10 @@ public class ListenAndSender implements Runnable {
             Log.e("HOST","Error",e);
         } catch (IOException e) {
             Log.e("SEND ","No sent",e);
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            Log.e("buffer","index limit",e);
         }
     }
 }

@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
     Bitmap frame;
     MyHandler myHandler=new MyHandler(this);
     int port=9000;
-    String IP="192.168.2.49";
-    //String IP="192.168.1.105";
+    //String IP="192.168.2.49";
+    String IP="192.168.1.107";
     //String IP="192.168.114.165";
 
 
