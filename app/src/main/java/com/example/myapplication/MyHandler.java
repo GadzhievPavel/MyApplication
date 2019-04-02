@@ -23,8 +23,8 @@ public class MyHandler extends Handler {
         if(activity!=null)
         {
             try {
-                String s=(String)m.obj;
-                activity.textView.setText(s);
+                Bitmap bitmap =(Bitmap) m.obj;
+                activity.imageView.setImageBitmap(bitmap);
             }
             catch (Exception e)
                 {

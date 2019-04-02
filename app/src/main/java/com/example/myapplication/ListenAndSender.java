@@ -35,27 +35,6 @@ public class ListenAndSender implements Runnable {
 
     }
 
-    private Bitmap decodeStream(byte [] array){
-        Bitmap bitmap=Bitmap.createBitmap(60,640,Bitmap.Config.ARGB_8888);
-        int [] arrayBuf=new int[array.length];
-        int color;
-        int bCount=2;
-        int gCount=1;
-        int rCount=0;
-        for (int i=0;i<40;i++)
-        {
-            for(int j=0;j<640;j++)
-            {
-
-                color=Color.argb(255,arrayBuf[bCount],arrayBuf[gCount],arrayBuf[rCount]);
-                bitmap.setPixel(i,j,color);
-                bCount++;
-                gCount++;
-                rCount++;
-            }
-        }
-        return bitmap;
-    }
     @Override
     public void run() {
         boolean run=true;
@@ -71,17 +50,10 @@ public class ListenAndSender implements Runnable {
                     byte[] videoByte = new byte[57600];
                     DatagramPacket packetListener = new DatagramPacket(videoByte, videoByte.length);
                     udpSocket.receive(packetListener);
-                    int [] data=new int[packetListener.getData().length];
-                    ByteBuffer buffer= ByteBuffer.wrap(packetListener.getData());
-                    for (int i=0;i<buffer.limit();i++)
-                    {
-                        data[i]=buffer.getInt(i);
-                    }
-                    Log.d("buf size", String.valueOf(data.length));
-                    String text =String.valueOf(data);
-                    Log.d("Video", String.valueOf(data));
+                    byte[] data = packetListener.getData();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
                     Message m = handler.obtainMessage();
-                    m.obj=text;
+                    m.obj=bitmap;
                     if(m.obj!=null)
                     {
                         handler.sendMessage(m);

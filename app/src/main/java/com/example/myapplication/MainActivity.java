@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lay);
         imageView=findViewById(R.id.image);
-        textView=findViewById(R.id.text);
+        //textView=findViewById(R.id.text);
         ListenAndSender listenAndSender=new ListenAndSender(IP,port,myHandler);
-        //imageView.setImageBitmap(frame);
+        imageView.setImageBitmap(frame);
     }
 
 }
