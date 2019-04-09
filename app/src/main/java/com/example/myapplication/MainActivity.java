@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,15 +24,17 @@ public class MainActivity extends AppCompatActivity {
     MyHandler myHandler=new MyHandler(this);
     int port=9000;
     //String IP="192.168.2.49";
-    String IP="192.168.1.107";
+    String IP="192.168.1.108";
     //String IP="192.168.114.165";
-
+    //String IP="192.168.114.165";
 
     DatagramSocket socket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.lay);
+
         imageView=findViewById(R.id.image);
         //textView=findViewById(R.id.text);
         ListenAndSender listenAndSender=new ListenAndSender(IP,port,myHandler);

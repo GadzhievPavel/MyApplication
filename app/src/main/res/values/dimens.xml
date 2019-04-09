@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="TitleName">30dp</dimen>
+    <dimen name="TitleNameMin">25dp</dimen>
+</resources>

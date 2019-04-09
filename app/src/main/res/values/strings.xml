@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="title_activity_main">Main</string>
+    <string name="title">UNIOR</string>
+    <string name="titleControl">Control</string>
+    <string name="selectRobot">Выбрать Робота</string>
+    <string name="metric">Метрики</string>
+    <string name="settings">Настройки</string>
 </resources>
