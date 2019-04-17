@@ -18,23 +18,39 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.concurrent.Exchanger;
 
 public class ListenAndSender implements Runnable {
     Thread thread;
     Handler handler;
+    private Exchanger<Bitmap> exchanger;
     private String ip;
     private  int port;
     private BitmapFactory.Options bitmap_options = new BitmapFactory.Options();
-    public ListenAndSender(String ip,int port,Handler handler){
+    public ListenAndSender(String ip, int port, Exchanger<Bitmap> exchanger){
+        thread=new Thread(this,"first thread");
+        this.ip=ip;
+        this.port=port;
+        this.exchanger=exchanger;
+        bitmap_options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        thread.start();
+    }
+    public ListenAndSender(String ip, int port,Handler handler){
         thread=new Thread(this,"first thread");
         this.ip=ip;
         this.port=port;
         this.handler=handler;
         bitmap_options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         thread.start();
-
     }
-
+    private void sendHandler(Bitmap bitmap){
+        Message m = handler.obtainMessage();
+        m.obj=bitmap;
+        if(m.obj!=null)
+        {
+            handler.sendMessage(m);
+        }
+    }
     @Override
     public void run() {
         boolean run=true;
@@ -52,15 +68,13 @@ public class ListenAndSender implements Runnable {
                     udpSocket.receive(packetListener);
                     byte[] data = packetListener.getData();
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
-                    Message m = handler.obtainMessage();
-                    m.obj=bitmap;
-                    if(m.obj!=null)
-                    {
-                        handler.sendMessage(m);
-                    }
+                    exchanger.exchange(bitmap);
+                    //sendHandler(bitmap);
 
                 } catch (IOException e) {
                     Log.e("UDPlinth'sIOException","error",e);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
         } catch (SocketException e) {
             Log.e("Socket Open","Error",e);

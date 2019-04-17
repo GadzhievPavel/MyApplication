@@ -16,29 +16,35 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.concurrent.Exchanger;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
     ImageView imageView;
-    Bitmap frame;
-    MyHandler myHandler=new MyHandler(this);
+    //Bitmap frame;
+    //MyHandler myHandler=new MyHandler(this);
+    Exchanger<Bitmap> exchanger = new Exchanger<Bitmap>();
+
     int port=9000;
     //String IP="192.168.2.49";
-    String IP="192.168.1.108";
+    //String IP="192.168.1.108";
     //String IP="192.168.114.165";
     //String IP="192.168.114.165";
-
+    //String IP="192.168.0.161";
+    //String IP="192.168.0.108";
+    String IP = "192.168.1.100";
     DatagramSocket socket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ListenAndSender listenAndSender=new ListenAndSender(IP,port,exchanger);
         getSupportActionBar().hide();
-        setContentView(R.layout.lay);
+        setContentView(new SurfaceActivity(this,exchanger));
 
-        imageView=findViewById(R.id.image);
+        //imageView=findViewById(R.id.image);
         //textView=findViewById(R.id.text);
-        ListenAndSender listenAndSender=new ListenAndSender(IP,port,myHandler);
-        imageView.setImageBitmap(frame);
+
+        //imageView.setImageBitmap(frame);
     }
 
 }

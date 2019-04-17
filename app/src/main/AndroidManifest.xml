@@ -11,9 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Main"
-            android:screenOrientation="landscape" />
+        <activity android:name=".views.FragmentMenu"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape">
