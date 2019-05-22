@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -19,8 +20,9 @@ public class SurfaceActivity extends SurfaceView implements SurfaceHolder.Callba
     private FPVThread fpvThread;
     private Bitmap bitmap;
     Display display;
+    static public Exchanger<Bitmap> exchanger;
 
-    public SurfaceActivity(Context context, Exchanger<Bitmap> exchanger){
+    public SurfaceActivity(Context context){
         super(context);
         getHolder().addCallback(this);
         fpvThread= new FPVThread(getHolder(),this,exchanger);
@@ -28,6 +30,19 @@ public class SurfaceActivity extends SurfaceView implements SurfaceHolder.Callba
 
     }
 
+    public SurfaceActivity(Context context, AttributeSet attrs){
+        super(context, attrs);
+        getHolder().addCallback(this);
+        fpvThread= new FPVThread(getHolder(),this,exchanger);
+        setFocusable(true);
+    }
+
+    public SurfaceActivity(Context context,AttributeSet attributeSet, int i){
+        super(context,attributeSet,i);
+        getHolder().addCallback(this);
+        fpvThread= new FPVThread(getHolder(),this,exchanger);
+        setFocusable(true);
+    }
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         fpvThread.setRunning(true);

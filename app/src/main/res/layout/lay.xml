@@ -4,10 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<ImageView
-    android:id="@+id/image"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
+<com.example.myapplication.SurfaceActivity
+    android:id="@+id/frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
+
+        <io.github.controlwear.virtual.joystick.android.JoystickView xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/joystick"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            custom:JV_backgroundColor="#1111"
+            custom:JV_borderColor="#3333"
+            custom:JV_borderWidth="10dp"
+            custom:JV_buttonColor="#5555"
+            custom:JV_buttonSizeRatio="20%"
+            custom:JV_fixedCenter="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/frame"/>
+        <TextView
+            android:layout_margin="10dp"
+            android:id="@+id/angel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Text"
+            android:textSize="30dp"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/angel"
+            android:layout_marginRight="@dimen/TitleName"
+            android:text="Text"
+            android:textSize="30dp" />
 </RelativeLayout>

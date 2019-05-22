@@ -23,6 +23,7 @@ import java.util.concurrent.Exchanger;
 public class ListenAndSender implements Runnable {
     Thread thread;
     Handler handler;
+    private byte[] controlMsg=new byte[2];
     private Exchanger<Bitmap> exchanger;
     private String ip;
     private  int port;
@@ -69,6 +70,8 @@ public class ListenAndSender implements Runnable {
                     byte[] data = packetListener.getData();
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
                     exchanger.exchange(bitmap);
+                    DatagramPacket packetSend= new DatagramPacket(controlMsg,controlMsg.length,serverAddr,port);
+                    udpSocket.send(packetSend);
                     //sendHandler(bitmap);
 
                 } catch (IOException e) {
@@ -88,5 +91,13 @@ public class ListenAndSender implements Runnable {
         {
             Log.e("buffer","index limit",e);
         }
+    }
+
+    public byte[] getControlMsg() {
+        return controlMsg;
+    }
+
+    public void setControlMsg(byte[] controlMsg) {
+        this.controlMsg = controlMsg;
     }
 }
