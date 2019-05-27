@@ -36,10 +36,9 @@ public class MainActivity extends AppCompatActivity {
     //String IP="192.168.2.49";
     //String IP="192.168.1.108";
     //String IP="192.168.114.165";
-    //String IP="192.168.114.165";
-    String IP="192.168.0.161";
+   // String IP="192.168.0.161";
     //String IP="192.168.0.108";
-    //String IP = "192.168.1.113";
+    String IP = "192.168.1.113";
     String [] array=new String[2];
     DatagramSocket socket;
     @Override

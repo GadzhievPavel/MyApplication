@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context=".Main">
-         android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/orange">
-<fragment
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"></fragment>
+  >
+    <TextView
+        android:id="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UNIOR CONTROL"
+        android:textSize="30dp"
+        android:textColor="#AA0000"/>
+    <TextView
+        android:id="@+id/inst"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Введите IP робота"
+        android:layout_below="@id/title"
+        android:layout_marginTop="60dp"
+        android:layout_alignParentLeft="true"/>
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inst"/>
+
+    <ImageButton
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/go" />
+</RelativeLayout>
