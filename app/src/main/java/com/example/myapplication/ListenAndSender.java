@@ -16,6 +16,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.Exchanger;
@@ -25,8 +26,10 @@ public class ListenAndSender implements Runnable {
     Handler handler;
     private byte[] controlMsg=new byte[2];
     private Exchanger<Bitmap> exchanger;
+    DatagramSocket udpSocket;
     private String ip;
     private  int port;
+    boolean run;
     private BitmapFactory.Options bitmap_options = new BitmapFactory.Options();
     public ListenAndSender(String ip, int port, Exchanger<Bitmap> exchanger){
         thread=new Thread(this,"first thread");
@@ -52,12 +55,14 @@ public class ListenAndSender implements Runnable {
             handler.sendMessage(m);
         }
     }
+
     @Override
     public void run() {
-        boolean run=true;
         try {
+            run=true;
             InetAddress serverAddr=InetAddress.getByName(ip);
-            DatagramSocket udpSocket=new DatagramSocket();
+            udpSocket=new DatagramSocket();
+            udpSocket.setSoTimeout(3000);
             byte [] startMsg=("start").getBytes();
             DatagramPacket packet=new DatagramPacket(startMsg,startMsg.length,serverAddr,port);
             udpSocket.send(packet);
@@ -67,6 +72,7 @@ public class ListenAndSender implements Runnable {
                     byte[] videoByte = new byte[57600];
                     DatagramPacket packetListener = new DatagramPacket(videoByte, videoByte.length);
                     udpSocket.receive(packetListener);
+                    Log.e("resiver","i have packet");
                     byte[] data = packetListener.getData();
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
                     exchanger.exchange(bitmap);
@@ -74,6 +80,10 @@ public class ListenAndSender implements Runnable {
                     udpSocket.send(packetSend);
                     //sendHandler(bitmap);
 
+                } catch (SocketTimeoutException e){
+                    Log.e("Timeout","300");
+                    udpSocket.close();
+                    run=false;
                 } catch (IOException e) {
                     Log.e("UDPlinth'sIOException","error",e);
                 } catch (InterruptedException e) {

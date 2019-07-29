@@ -5,19 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.myapplication.FPVThread;
+
 import java.util.concurrent.Exchanger;
 
 import static android.content.ContentValues.TAG;
 
 public class SurfaceActivity extends SurfaceView implements SurfaceHolder.Callback {
-    private FPVThread fpvThread;
+    public FPVThread fpvThread;
     private Bitmap bitmap;
     Display display;
     static public Exchanger<Bitmap> exchanger;

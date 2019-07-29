@@ -9,7 +9,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 
-        <io.github.controlwear.virtual.joystick.android.JoystickView xmlns:custom="http://schemas.android.com/apk/res-auto"
+        <io.github.controlwear.virtual.joystick.android.JoystickView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
             android:id="@+id/joystick"
             android:layout_width="100dp"
             android:layout_height="100dp"

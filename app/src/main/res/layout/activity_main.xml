@@ -27,7 +27,8 @@
         android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/inst"/>
+        android:inputType="numberDecimal"
+        android:layout_below="@id/inst" />
 
     <ImageButton
         android:layout_alignParentBottom="true"
